@@ -24,14 +24,14 @@ class NovelApiController extends Controller
 
     public function toggleActive($id)
     {
-        $novel = Novel::findOrFail($id);
+        $novel = \App\Models\Novel::findOrFail($id);
         $novel->is_active = !$novel->is_active;
         $novel->save();
 
         return response()->json([
             'success' => true,
             'is_active' => $novel->is_active,
-            'message' => $novel->is_active ? 'Novel ditampilkan' : 'Novel disembunyikan'
+            'message' => $novel->is_active ? 'Novel diaktifkan' : 'Novel dinonaktifkan'
         ]);
     }
 }
