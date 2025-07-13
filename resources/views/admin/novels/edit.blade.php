@@ -61,6 +61,12 @@
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                
+                <div class="mb-4">
+                    <label class="block font-semibold mb-1" for="stock">Stok</label>
+                    <input type="number" name="stock" id="stock" value="{{ old('stock', $novel->stock ?? 0) }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
 
                 <div class="mb-4">
                     <label for="price" class="block mb-1 font-semibold">Harga</label>

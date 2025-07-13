@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Novel;
 use App\Models\Category;
 use Illuminate\Http\Request;
+// Tambahan di bagian use
 use Illuminate\Support\Facades\Storage;
 
 class NovelController extends Controller
@@ -30,10 +31,11 @@ class NovelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0', // ✅ Tambah validasi stock
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $data = $request->only('title', 'author', 'description', 'price', 'category_id');
+        $data = $request->only('title', 'author', 'description', 'price', 'stock', 'category_id'); // ✅ Tambah stock
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('novel_images', 'public');
@@ -60,10 +62,11 @@ class NovelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0', // ✅ Tambah validasi stock
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $data = $request->only('title', 'author', 'description', 'price', 'category_id');
+        $data = $request->only('title', 'author', 'description', 'price', 'stock', 'category_id'); // ✅ Tambah stock
 
         if ($request->hasFile('image')) {
             if ($novel->image && Storage::disk('public')->exists($novel->image)) {

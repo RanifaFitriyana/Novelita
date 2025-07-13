@@ -59,6 +59,12 @@
                 </div>
 
                 <div class="mb-4">
+                    <label class="block font-semibold mb-1" for="stock">Stok</label>
+                    <input type="number" name="stock" id="stock" value="{{ old('stock', $novel->stock ?? 0) }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+
+                <div class="mb-4">
                     <label for="price" class="block mb-1 font-semibold">Harga</label>
                     <input type="number" step="0.01" id="price" name="price" value="{{ old('price') }}" required class="w-full border border-gray-300 rounded px-3 py-2">
                     @error('price')
