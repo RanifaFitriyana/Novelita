@@ -9,7 +9,7 @@ class Novel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author', 'price', 'is_active', 'description', 'image'];
+    protected $fillable = ['title', 'author', 'description', 'image', 'price', 'is_active', 'category_id'];
     protected $casts = [
         'is_active' => 'boolean',
     ];

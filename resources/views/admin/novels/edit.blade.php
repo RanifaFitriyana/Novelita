@@ -28,6 +28,22 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="category_id" class="block mb-1 font-semibold">Kategori</label>
+                    <select id="category_id" name="category_id" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($categories as $category)
+                        <option value="{{ $category->id }}"
+                            {{ old('category_id', $novel->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
                     <label for="description" class="block mb-1 font-semibold">Deskripsi</label>
                     <textarea id="description" name="description" rows="4" class="w-full border border-gray-300 rounded px-3 py-2">{{ old('description', $novel->description) }}</textarea>
                     @error('description')

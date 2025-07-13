@@ -20,6 +20,7 @@
                         <th class="border px-4 py-2">Judul</th>
                         <th class="border px-4 py-2">Deskripsi</th>
                         <th class="border px-4 py-2">Penulis</th>
+                        <th class="border px-4 py-2">Kategori</th>
                         <th class="border px-4 py-2">Harga</th>
                         <th class="border px-4 py-2">Status</th>
                         <th class="border px-4 py-2">Aksi</th>
@@ -38,6 +39,7 @@
                         <td class="border px-4 py-2">{{ $novel->title }}</td>
                         <td class="border px-4 py-2">{{ \Illuminate\Support\Str::limit($novel->description, 50) }}</td>
                         <td class="border px-4 py-2">{{ $novel->author ?? '-' }}</td>
+                        <td class="border px-4 py-2">{{ $novel->category->name ?? '-' }}</td>
                         <td class="border px-4 py-2">Rp {{ number_format($novel->price, 2, ',', '.') }}</td>
                         <td class="border px-4 py-2 text-center">
                             <form action="{{ route('admin.novels.toggleStatus', $novel->id) }}" method="POST">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Novel;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,13 +12,14 @@ class NovelController extends Controller
 {
     public function index()
     {
-        $novels = Novel::all();
+        $novels = Novel::with('category')->get();
         return view('admin.novels.index', compact('novels'));
     }
 
     public function create()
     {
-        return view('admin.novels.create');
+        $categories = Category::all();
+        return view('admin.novels.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -28,9 +30,10 @@ class NovelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $data = $request->only('title', 'author', 'description', 'price');
+        $data = $request->only('title', 'author', 'description', 'price', 'category_id');
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('novel_images', 'public');
@@ -45,7 +48,8 @@ class NovelController extends Controller
 
     public function edit(Novel $novel)
     {
-        return view('admin.novels.edit', compact('novel'));
+        $categories = Category::all();
+        return view('admin.novels.edit', compact('novel', 'categories'));
     }
 
     public function update(Request $request, Novel $novel)
@@ -56,9 +60,10 @@ class NovelController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'price' => 'required|numeric|min:0',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $data = $request->only('title', 'author', 'description', 'price');
+        $data = $request->only('title', 'author', 'description', 'price', 'category_id');
 
         if ($request->hasFile('image')) {
             if ($novel->image && Storage::disk('public')->exists($novel->image)) {
@@ -74,7 +79,6 @@ class NovelController extends Controller
 
     public function destroy(Novel $novel)
     {
-
         if ($novel->image && Storage::disk('public')->exists($novel->image)) {
             Storage::disk('public')->delete($novel->image);
         }
