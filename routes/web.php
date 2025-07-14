@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NovelController;
 use App\Http\Controllers\StoreController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,19 +23,23 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Halaman toko (store frontend)
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 
-// Dashboard Admin (khusus admin)
+// Route untuk dashboard & fitur admin
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Resource routes untuk Kategori dan Novel
-    Route::resource('categories', CategoryController::class);
-    Route::post('categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggleStatus');
-    Route::resource('novels', NovelController::class);
+    // Sinkronisasi dan toggle status (pastikan sebelum resource!)
+    Route::post('novels/{novel}/sync', [NovelController::class, 'sync'])->name('novels.sync');
     Route::post('novels/{novel}/toggle-status', [NovelController::class, 'toggleStatus'])->name('novels.toggleStatus');
-});
+    Route::post('categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggleStatus');
+    Route::post('categories/{category}/sync', [CategoryController::class, 'sync'])->name('categories.sync');
 
+    // CRUD Resource
+    Route::resource('novels', NovelController::class);
+    Route::resource('categories', CategoryController::class);
+});
 
 // Route untuk profil user
 Route::middleware('auth')->group(function () {
@@ -45,7 +48,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-// Route auth default (login, register, dll)
+// Route auth default
 require __DIR__ . '/auth.php';

@@ -9,18 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('novels', function (Blueprint $table) {
-            $table->text('description')->nullable()->after('author');
-            $table->string('image')->nullable()->after('description');
+            $table->unsignedBigInteger('hub_novel_id')->nullable()->after('id');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('novels', function (Blueprint $table) {
-            $table->dropColumn(['description', 'image']);
+            //
         });
     }
 };

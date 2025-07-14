@@ -31,13 +31,36 @@
                     <select id="category_id" name="category_id" class="w-full border border-gray-300 rounded px-3 py-2">
                         <option value="">-- Pilih Kategori --</option>
                         @foreach($categories as $category)
-                        <option value="{{ $category->id }}"
-                            {{ old('category_id', $novel->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
                         @endforeach
                     </select>
                     @error('category_id')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="sku" class="block mb-1 font-semibold">SKU</label>
+                    <input type="text" id="sku" name="sku" value="{{ old('sku') }}" class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('sku')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="stock" class="block mb-1 font-semibold">Stok</label>
+                    <input type="number" id="stock" name="stock" value="{{ old('stock') }}" min="0" class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('stock')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="weight" class="block mb-1 font-semibold">Berat (gram)</label>
+                    <input type="number" id="weight" name="weight" value="{{ old('weight') }}" min="0" class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('weight')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -59,12 +82,6 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1" for="stock">Stok</label>
-                    <input type="number" name="stock" id="stock" value="{{ old('stock', $novel->stock ?? 0) }}"
-                        class="w-full border border-gray-300 rounded px-3 py-2">
-                </div>
-
-                <div class="mb-4">
                     <label for="price" class="block mb-1 font-semibold">Harga</label>
                     <input type="number" step="0.01" id="price" name="price" value="{{ old('price') }}" required class="w-full border border-gray-300 rounded px-3 py-2">
                     @error('price')
@@ -72,8 +89,10 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
-                <a href="{{ route('admin.novels.index') }}" class="ml-4 text-gray-600 hover:underline">Batal</a>
+                <div class="flex justify-between items-center">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
+                    <a href="{{ route('admin.novels.index') }}" class="text-gray-600 hover:underline">Batal</a>
+                </div>
             </form>
         </div>
     </div>

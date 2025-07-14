@@ -15,8 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('author')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image',)->nullable();
             $table->decimal('price', 10, 2)->default(0);
             $table->unsignedBigInteger('category_id');
+            $table->integer('stock')->default(0);
+            $table->string('sku')->nullable();
+            $table->integer('weight')->default(1);
+            $table->unsignedBigInteger('hub_product_id')->nullable(); // untuk ID produk dari Hub UMKM
             $table->boolean('is_active')->default(true); 
             $table->timestamps();
 
