@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', [StoreController::class, 'home'])->name('store.home');
 Route::get('/products', [StoreController::class, 'products'])->name('store.products');
+Route::get('/products/{novel}', [StoreController::class, 'showNovel'])->name('store.products.show');
 Route::get('/categories', [StoreController::class, 'categories'])->name('store.categories');
 Route::get('/contact', [StoreController::class, 'contact'])->name('store.contact');
 
@@ -67,7 +68,7 @@ Route::prefix('admin')->name('admin.')->middleware('guest:admin')->group(functio
 
 Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware('auth:admin')->name('admin.logout');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    
+
 
 // Route auth default
 require __DIR__ . '/auth.php';
