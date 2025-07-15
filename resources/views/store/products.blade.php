@@ -2,19 +2,9 @@
 
 @section('content')
 <div class="container mx-auto px-6 py-12">
-    <h1 class="text-3xl font-bold mb-8">Selamat Datang di Novelita Store!</h1>
+    <h1 class="text-3xl font-bold mb-8">Daftar Produk Novel</h1>
 
-    <h2 class="text-2xl font-semibold mb-4">Kategori Pilihan</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-12">
-        @foreach ($categories as $category)
-            <a href="{{ route('store.categories') }}" class="block p-4 bg-indigo-100 rounded-lg hover:bg-indigo-200 text-center font-semibold">
-                {{ $category->name }}
-            </a>
-        @endforeach
-    </div>
-
-    <h2 class="text-2xl font-semibold mb-4">Novel Terbaru</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @foreach ($novels as $novel)
             <div class="bg-white rounded-lg shadow p-4">
                 @if ($novel->image)
@@ -25,6 +15,10 @@
                 <p class="text-indigo-700 font-semibold mt-2">Rp{{ number_format($novel->price, 0, ',', '.') }}</p>
             </div>
         @endforeach
+    </div>
+
+    <div class="mt-8">
+        {{ $novels->links() }}
     </div>
 </div>
 @endsection

@@ -6,6 +6,10 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NovelController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminRegisteredController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +17,11 @@ use App\Http\Controllers\StoreController;
 |--------------------------------------------------------------------------
 */
 
-// Halaman depan
-Route::get('/', function () {
-    return view('welcome');
-});
 
 // Dashboard umum (setelah login)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Halaman toko (store frontend)
-Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 
 // Route untuk dashboard & fitur admin
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
@@ -47,6 +44,30 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/', [StoreController::class, 'home'])->name('store.home');
+Route::get('/products', [StoreController::class, 'products'])->name('store.products');
+Route::get('/categories', [StoreController::class, 'categories'])->name('store.categories');
+Route::get('/contact', [StoreController::class, 'contact'])->name('store.contact');
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
+});
+
+// Route Admin Auth (login, register, logout)
+Route::prefix('admin')->name('admin.')->middleware('guest:admin')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AdminAuthController::class, 'login']);
+    Route::get('register', [AdminRegisteredController::class, 'create'])->name('register');
+    Route::post('register', [AdminRegisteredController::class, 'store']);
+});
+
+Route::post('admin/logout', [AdminAuthController::class, 'logout'])->middleware('auth:admin')->name('admin.logout');
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
 
 // Route auth default
 require __DIR__ . '/auth.php';
