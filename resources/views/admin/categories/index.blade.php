@@ -43,14 +43,11 @@
 
                         {{-- Sinkronisasi --}}
                         <td class="border px-4 py-2 text-center">
-                            <form id="sync-category-{{ $category->id }}" action="{{ route('admin.categories.sync', $category->id) }}" method="POST">
+                            <form action="{{ route('admin.categories.sync', $category) }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="is_active" value="@if($category->hub_category_id) 1 @else 0 @endif">
-                                @if($category->hub_category_id)
-                                <flux:switch checked onchange="document.getElementById('sync-category-{{ $category->id }}').submit()" />
-                                @else
-                                <flux:switch onchange="document.getElementById('sync-category-{{ $category->id }}').submit()" />
-                                @endif
+                                <button type="submit" class="px-3 py-1 rounded text-white bg-green-600 hover:bg-green-700">
+                                    Sinkronkan
+                                </button>
                             </form>
                         </td>
 

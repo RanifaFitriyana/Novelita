@@ -61,14 +61,11 @@
 
                         {{-- Sinkronisasi --}}
                         <td class="border px-4 py-2 text-center">
-                            <form id="sync-novel-{{ $novel->id }}" action="{{ route('admin.novels.sync', $novel->id) }}" method="POST">
+                            <form action="{{ route('admin.novels.sync', $novel) }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="is_active" value="@if($novel->hub_novel_id) 1 @else 0 @endif">
-                                @if($novel->hub_novel_id)
-                                <flux:switch checked onchange="document.getElementById('sync-novel-{{ $novel->id }}').submit()" />
-                                @else
-                                <flux:switch onchange="document.getElementById('sync-novel-{{ $novel->id }}').submit()" />
-                                @endif
+                                <button type="submit" class="px-3 py-1 rounded text-white bg-green-600 hover:bg-green-700">
+                                    Sinkronkan
+                                </button>
                             </form>
                         </td>
 

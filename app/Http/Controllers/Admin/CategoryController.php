@@ -77,12 +77,12 @@ class CategoryController extends Controller
     public function sync(Request $request, Category $category)
     {
         $response = Http::post('https://api.phb-umkm.my.id/api/product-category/sync', [
-            'client_id' => env('client_27qv2Zwku61p'),
-            'client_secret' => env('yNPf7uxRlVyhSlpOVd4wH0K5MCuI1zFF5pOqeLFN'),
+            'client_id' => 'client_27qv2Zwku61p',
+            'client_secret' => 'yNPf7uxRlVyhSlpOVd4wH0K5MCuI1zFF5pOqeLFN',
             'seller_product_category_id' => (string) $category->id,
             'name' => $category->name,
             'description' => $category->description,
-            'is_active' => $request->is_active == 1 ? false : true,
+            'is_active' => $category->is_active == 1 ? false : true,
         ]);
 
         if ($response->successful() && isset($response['product_category_id'])) {

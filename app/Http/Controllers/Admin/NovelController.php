@@ -122,22 +122,22 @@ class NovelController extends Controller
     {
         // Contoh endpoint sinkronisasi eksternal (bisa diganti dengan real API)
         $response = Http::post('https://api.phb-umkm.my.id/api/product/sync', [
-            'client_id' => env('client_27qv2Zwku61p'),
-            'client_secret' => env('yNPf7uxRlVyhSlpOVd4wH0K5MCuI1zFF5pOqeLFN'),
+            'client_id' => 'client_27qv2Zwku61p',
+            'client_secret' => 'yNPf7uxRlVyhSlpOVd4wH0K5MCuI1zFF5pOqeLFN',
             'seller_product_id' => (string) $novel->id,
             'name' => $novel->title,
             'description' => $novel->description,
             'price' => $novel->price,
             'stock' => $novel->stock,
             'sku' => $novel->sku,
-            'image_url' => $novel->image ? asset('storage/' . $novel->image) : null,
+            'image_url' => $novel->image ? $novel->image : null,
             'weight' => $novel->weight,
-            'is_active' => $request->is_active == 1 ? false : true,
+            'is_active' => $novel->is_active == 1 ? true : false,
             'category_id' => (string) optional($novel->category)->hub_category_id,
         ]);
 
         if ($response->successful() && isset($response['product_id'])) {
-            $novel->hub_product_id = $request->is_active == 1 ? null : $response['product_id'];
+            $novel->hub_novel_id = $request->is_active == 1 ? null : $response['product_id'];
             $novel->save();
         }
 
