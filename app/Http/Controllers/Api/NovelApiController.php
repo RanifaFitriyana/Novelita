@@ -24,7 +24,7 @@ class NovelApiController extends Controller
 
     public function toggleActive($id)
     {
-        $novel = \App\Models\Novel::findOrFail($id);
+        $novel = Novel::findOrFail($id);
         $novel->is_active = !$novel->is_active;
         $novel->save();
 

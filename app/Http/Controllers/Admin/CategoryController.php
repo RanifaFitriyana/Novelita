@@ -82,7 +82,7 @@ class CategoryController extends Controller
             'seller_product_category_id' => (string) $category->id,
             'name' => $category->name,
             'description' => $category->description,
-            'is_active' => $category->is_active == 1 ? false : true,
+            'is_active' => $category->is_active == 1 ? true : false,
         ]);
 
         if ($response->successful() && isset($response['product_category_id'])) {
